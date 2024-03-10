@@ -46,10 +46,9 @@ export default function Home() {
     };
   }, [currentQuestion, handleSearchButtonClick]);
 
-  useEffect(() => {}, []);
   return (
     <main className="h-full w-full flex flex-col justify-between">
-      <div className="w-full h-[calc(100% - 80px)] flex justify-center items-center overflow-y-auto mb-3">
+      <div className="w-full h-full flex justify-center items-center overflow-y-auto mb-3">
         {messages.length === 0 && <ChatLabel />}
         {messages.length > 0 && (
           <Chat message={messages} isLoading={isLoading} />

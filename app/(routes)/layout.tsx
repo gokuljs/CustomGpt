@@ -8,10 +8,10 @@ interface HomePageProps {
 const layout: React.FC<HomePageProps> = ({ children }) => {
   return (
     <div className="h-full w-full flex">
-      <aside className="px-3 py-3 min-w-2">
+      <aside className="px-3 py-3 min-w-">
         <ModeToggle />
       </aside>
-      <main>{children}</main>
+      <main className="h-full w-full">{children}</main>
     </div>
   );
 };

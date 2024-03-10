@@ -1,3 +1,4 @@
+import { ModeToggle } from "@/components/mode-toggle";
 import React from "react";
 
 interface HomePageProps {
@@ -7,10 +8,8 @@ interface HomePageProps {
 const layout: React.FC<HomePageProps> = ({ children }) => {
   return (
     <div className="h-full w-full flex">
-      <aside className="px-1 py-1 min-w-2 border flex-col">
-        <div>sds</div>
-        <div>sds</div>
-        <div>sds</div>
+      <aside className="px-3 py-3 min-w-2">
+        <ModeToggle />
       </aside>
       <main>{children}</main>
     </div>

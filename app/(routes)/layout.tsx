@@ -5,7 +5,7 @@ interface HomePageProps {
   children: React.ReactNode;
 }
 
-const layout: React.FC<HomePageProps> = ({ children }) => {
+const HomePageLayout: React.FC<HomePageProps> = ({ children }) => {
   return (
     <div className="h-[100%] w-[100%] flex">
       <aside className="px-3 py-3 mobile lg:block hidden">
@@ -16,4 +16,4 @@ const layout: React.FC<HomePageProps> = ({ children }) => {
   );
 };
 
-export default layout;
+export default HomePageLayout;

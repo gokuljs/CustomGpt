@@ -7,6 +7,9 @@ import ChatLabel from "./_components/chatLabel";
 import submitModelRequest from "@/lib/modelRequest";
 import Chat from "./_components/Chat";
 import useZoomReset from "@/lib/useZoomReset";
+import { uuid } from "uuidv4";
+import useStoreMessagesInStore from "@/lib/useStoreMessagesInStore";
+import useGetAllMessages from "@/lib/useGetAllMessagesData";
 
 export default function Home() {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -16,6 +19,11 @@ export default function Home() {
   const [messages, setMessages] = useState<
     OpenAI.Chat.ChatCompletionMessageParam[]
   >([]);
+  const idRef = useRef(uuid());
+  useStoreMessagesInStore(messages, idRef.current);
+  const data = useGetAllMessages();
+  console.log(data);
+
   useZoomReset();
   const handleSearchButtonClick = useCallback(
     (currentQuestion: string) => {

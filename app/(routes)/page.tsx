@@ -6,15 +6,22 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import ChatLabel from "./_components/chatLabel";
 import submitModelRequest from "@/lib/modelRequest";
 import Chat from "./_components/Chat";
+import useStoreDataInCache from "@/lib/hooks/useStoreDataIncache";
+import { v4 as uuidv4 } from "uuid"; // updated import to match uuid v4 syntax
+import useGetCachedData from "@/lib/hooks/useGetCachedData";
 
 export default function Home() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [currentQuestion, setCurrentQuestion] = useState<string>("");
   const [isLoading, setLoading] = useState<boolean>(false);
   const abortControllerRef = useRef(new AbortController());
+  const idRef = useRef(uuidv4());
   const [messages, setMessages] = useState<
     OpenAI.Chat.ChatCompletionMessageParam[]
   >([]);
+  useStoreDataInCache(messages, idRef.current);
+  const data = useGetCachedData();
+  console.log(data);
 
   const handleSearchButtonClick = useCallback(
     (currentQuestion: string) => {

@@ -1,8 +1,8 @@
+"use client";
 import OpenAI from "openai";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import MarkDownSyntaxHighlighter from "./MarkDownSyntaxHighlighter";
 import Logo from "@/components/logo";
-import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export interface ChatModelProps {
@@ -11,6 +11,14 @@ export interface ChatModelProps {
 }
 
 const Chat: React.FC<ChatModelProps> = ({ message, isLoading }) => {
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (messagesEndRef && messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [message]);
+
   return (
     <div className="h-full w-full flex justify-center items-center">
       <div className="h-full lg:w-[80%] w-[100%] px-2 md:px-10 py-10 flex flex-col gap-4  h-[calc(100% - 80px)]">
@@ -43,6 +51,7 @@ const Chat: React.FC<ChatModelProps> = ({ message, isLoading }) => {
             </div>
           </div>
         ))}
+        {message.length > 0 && <div ref={messagesEndRef} />}
       </div>
     </div>
   );

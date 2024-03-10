@@ -66,19 +66,19 @@ export default function Home() {
           <Input
             ref={inputRef}
             onChange={(e) => setCurrentQuestion(e.target.value)}
-            className="w-[100%] px-3 py-3 placeholder:text-zinc-600 placeholder:font-light"
+            className="w-[calc(100% - 40px)] px-3 py-3 placeholder:text-zinc-600 placeholder:font-light"
             placeholder="Start your conversation here..."
             value={currentQuestion}
           />
           {isLoading ? (
             <CircleOff
               color="red"
-              className="cursor-pointer"
+              className="cursor-pointer  w-[30px] h-[30px]"
               onClick={onAbortFetch}
             />
           ) : (
             <SendHorizontal
-              className="w-10% cursor-pointer text-zinc-400 dark:text-zinc-600"
+              className="w-10% cursor-pointer text-zinc-400 w-[30px] h-[30px] dark:text-zinc-600"
               onClick={() => {
                 currentQuestion.length > 0 &&
                   handleSearchButtonClick(currentQuestion);

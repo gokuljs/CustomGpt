@@ -11,6 +11,7 @@ import { uuid } from "uuidv4";
 import useStoreMessagesInStore from "@/lib/useStoreMessagesInStore";
 import useGetAllMessages from "@/lib/useGetAllMessagesData";
 
+const id = uuid();
 export default function Home() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [currentQuestion, setCurrentQuestion] = useState<string>("");
@@ -19,8 +20,8 @@ export default function Home() {
   const [messages, setMessages] = useState<
     OpenAI.Chat.ChatCompletionMessageParam[]
   >([]);
-  const idRef = useRef(uuid());
-  useStoreMessagesInStore(messages, idRef.current);
+
+  useStoreMessagesInStore(messages, id);
   const data = useGetAllMessages();
   console.log(data);
 

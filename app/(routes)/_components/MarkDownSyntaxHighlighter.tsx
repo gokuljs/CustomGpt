@@ -12,11 +12,7 @@ const MarkDownSyntaxHighlighter: React.FC<MarkDownSyntaxHighlighterProps> = ({
 }) => {
   const { theme } = useTheme();
   React.useEffect(() => {
-    if (theme === "light") {
-      require("highlight.js/styles/darcula.css");
-    } else {
-      require("highlight.js/styles/github.css");
-    }
+    require("highlight.js/styles/github.css");
   }, [theme]);
   if (!content || content.length === 0) return;
 

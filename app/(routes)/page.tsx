@@ -46,14 +46,14 @@ export default function Home() {
     };
   }, [currentQuestion, handleSearchButtonClick]);
 
-  console.log(messages, "ssss");
-
   useEffect(() => {}, []);
   return (
     <main className="h-full w-full flex flex-col justify-between">
-      <div className="w-full h-full flex justify-center items-center">
+      <div className="w-full h-[calc(100% - 80px)] flex justify-center items-center overflow-y-auto mb-3">
         {messages.length === 0 && <ChatLabel />}
-        {messages.length > 0 && <Chat message={messages} />}
+        {messages.length > 0 && (
+          <Chat message={messages} isLoading={isLoading} />
+        )}
       </div>
       <div className="h-[80px] flex flex-col gap-1 py-1 justify-center items-center ">
         <div className="flex justify-start items-center lg:w-[50%] w-[100%] px-4 lg:px-0 gap-3">

@@ -13,7 +13,14 @@ const HomePageLayout: React.FC<HomePageProps> = ({ children }) => {
         <History />
         <ModeToggle />
       </aside>
-      <main className="h-[100%] w-[100%]">{children}</main>
+      <main
+        style={{
+          height: "calc(100% - 40px)",
+        }}
+        className="w-[100%] "
+      >
+        {children}
+      </main>
     </div>
   );
 };

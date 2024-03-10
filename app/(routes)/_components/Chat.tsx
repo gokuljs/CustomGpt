@@ -1,9 +1,9 @@
 "use client";
 import OpenAI from "openai";
-import React, { useEffect, useRef } from "react";
-import MarkDownSyntaxHighlighter from "./MarkDownSyntaxHighlighter";
+import React, { useEffect, useMemo, useRef } from "react";
 import Logo from "@/components/logo";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import dynamic from "next/dynamic";
 
 export interface ChatModelProps {
   message: OpenAI.Chat.ChatCompletionMessageParam[];
@@ -12,6 +12,10 @@ export interface ChatModelProps {
 
 const Chat: React.FC<ChatModelProps> = ({ message, isLoading }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const MarkDownSyntaxHighlighter = useMemo(
+    () => dynamic(() => import("./MarkDownSyntaxHighlighter"), { ssr: false }),
+    []
+  );
 
   useEffect(() => {
     if (messagesEndRef && messagesEndRef.current) {

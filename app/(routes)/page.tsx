@@ -1,6 +1,6 @@
 "use client";
 import { Input } from "@/components/ui/input";
-import { SendHorizontal } from "lucide-react";
+import { CircleOff, SendHorizontal } from "lucide-react";
 import OpenAI from "openai";
 import { useCallback, useEffect, useRef, useState } from "react";
 import ChatLabel from "./_components/chatLabel";
@@ -46,6 +46,11 @@ export default function Home() {
     };
   }, [currentQuestion, handleSearchButtonClick]);
 
+  const onAbortFetch = useCallback((): void => {
+    abortControllerRef.current.abort();
+    setLoading(false);
+  }, []);
+
   return (
     <main className="h-full w-full flex flex-col justify-between">
       <div className="w-full h-full flex justify-center items-center overflow-y-auto mb-3">
@@ -64,13 +69,21 @@ export default function Home() {
             placeholder="Start your conversation here..."
             value={currentQuestion}
           />
-          <SendHorizontal
-            className="w-10% cursor-pointer text-zinc-400 dark:text-zinc-600"
-            onClick={() => {
-              currentQuestion.length > 0 &&
-                handleSearchButtonClick(currentQuestion);
-            }}
-          />
+          {isLoading ? (
+            <CircleOff
+              color="red"
+              className="cursor-pointer"
+              onClick={onAbortFetch}
+            />
+          ) : (
+            <SendHorizontal
+              className="w-10% cursor-pointer text-zinc-400 dark:text-zinc-600"
+              onClick={() => {
+                currentQuestion.length > 0 &&
+                  handleSearchButtonClick(currentQuestion);
+              }}
+            />
+          )}
         </div>
         <div className="sm:text-xs text-[10px] font-light text-zinc-600">
           CustomGpt can make mistakes. Consider checking important information.

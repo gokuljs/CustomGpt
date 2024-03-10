@@ -52,7 +52,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="h-full w-full flex flex-col justify-between">
+    <main className="h-[100vh] w-[100vw] flex flex-col pr-1 mb:pr-0 justify-between">
       <div className="w-full h-full flex justify-center items-center overflow-y-auto mb-3">
         {messages.length === 0 && <ChatLabel />}
         {messages.length > 0 && (

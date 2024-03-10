@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import ChatLabel from "./_components/chatLabel";
 import submitModelRequest from "@/lib/modelRequest";
 import Chat from "./_components/Chat";
+import useZoomReset from "@/lib/useZoomReset";
 
 export default function Home() {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -15,7 +16,7 @@ export default function Home() {
   const [messages, setMessages] = useState<
     OpenAI.Chat.ChatCompletionMessageParam[]
   >([]);
-
+  useZoomReset();
   const handleSearchButtonClick = useCallback(
     (currentQuestion: string) => {
       abortControllerRef.current = new AbortController();

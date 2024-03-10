@@ -27,6 +27,11 @@ body {
 pre {
   max-width: calc(100vw - 70px);
 }
+input,
+select,
+textarea {
+  font-size: 16px; /* or larger */
+}
 
 @layer base {
   :root {

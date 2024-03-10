@@ -1,9 +1,14 @@
 import React from "react";
 
-const Logo = () => (
+interface LogoProps {
+  width?: number;
+  height?: number;
+}
+
+const Logo: React.FC<LogoProps> = ({ width = 70, height = 70 }) => (
   <svg
-    width="70px"
-    height="70px"
+    width={`${width}px`}
+    height={`${height}px`}
     viewBox="0 0 48 48"
     xmlns="http://www.w3.org/2000/svg"
   >

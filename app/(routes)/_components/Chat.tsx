@@ -44,7 +44,7 @@ const Chat: React.FC<ChatModelProps> = ({ message, isLoading }) => {
                 </div>
               )}
             </div>
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1 pr-10 break-words">
               <div className="text-sm capitalize font-bold h-[20px] mt-[8px] flex items-center">
                 {item.role}
               </div>

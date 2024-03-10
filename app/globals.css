@@ -24,6 +24,10 @@ body {
   }
 }
 
+pre {
+  max-width: calc(100vw - 70px);
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

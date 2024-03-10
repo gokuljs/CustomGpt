@@ -53,7 +53,7 @@ export default function Home() {
 
   return (
     <main className="h-[100%] w-[100%] flex flex-col pr-1 mb:pr-0 justify-between">
-      <div className="w-full h-full flex justify-center items-center overflow-y-auto mb-3">
+      <div className="w-full h-full flex justify-center items-center overflow-y-auto overflow-x-hidden mb-3">
         {messages.length === 0 && <ChatLabel />}
         {messages.length > 0 && (
           <Chat message={messages} isLoading={isLoading} />

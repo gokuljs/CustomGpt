@@ -17,7 +17,9 @@ const MarkDownSyntaxHighlighter: React.FC<MarkDownSyntaxHighlighterProps> = ({
   if (!content || content.length === 0) return;
 
   return (
-    <ReactMarkdown rehypePlugins={[rehypeHighlight]}>{content}</ReactMarkdown>
+    <ReactMarkdown className="break-words" rehypePlugins={[rehypeHighlight]}>
+      {content}
+    </ReactMarkdown>
   );
 };
 

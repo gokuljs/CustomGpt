@@ -10,15 +10,15 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
 import useMessageStore from "@/lib/useStoreMessages";
+import { useRouter } from "next/navigation";
 
 const History = () => {
   const data: MessageProps[] = useGetAllMessages();
+  const router = useRouter();
   const { reset, onReset } = useMessageStore();
   const [sideBarActive, setSideBarActive] = useState<boolean>(false);
   const allMessages =
@@ -96,6 +96,7 @@ const History = () => {
         <div className="h-[100%-60px] py-5 px-2 flex flex-col gap-3 overflow-y-auto">
           {allMessages.map((item) => (
             <div
+              onClick={() => router.push(`${item.id}`)}
               className="px-2 py-2 cursor-pointer rounded dark:hover:bg-zinc-800 hover:bg-zinc-800 hover:text-white flex items-center justify-between"
               key={item.id}
             >

@@ -9,16 +9,26 @@ import { uuid } from "uuidv4";
 import useStoreMessagesInStore from "@/lib/useStoreMessagesInStore";
 import useGetAllMessages from "@/lib/useGetAllMessagesData";
 import useMessageStore from "@/lib/useStoreMessages";
-import ChatLabel from "../_components/ChatLabel";
-import Chat from "../_components/Chat";
+import ChatLabel from "../../_components/chatLabel";
+import Chat from "../../_components/Chat";
+import { useParams } from "next/navigation";
+import { redirect } from "next/navigation";
 
 const id = uuid();
-export default function Home() {
+interface DocumentIdProps {
+  params: {
+    messageId: string;
+  };
+}
+export default function MessageIdPage({ params }: DocumentIdProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [currentQuestion, setCurrentQuestion] = useState<string>("");
   const [isLoading, setLoading] = useState<boolean>(false);
   const abortControllerRef = useRef(new AbortController());
   const { onUpdate } = useMessageStore();
+
+  const data = useGetAllMessages();
+
   const [messages, setMessages] = useState<
     OpenAI.Chat.ChatCompletionMessageParam[]
   >([]);
@@ -27,8 +37,9 @@ export default function Home() {
     onUpdate(messages);
   }, [messages]);
 
-  useStoreMessagesInStore(messages, id);
-  const data = useGetAllMessages();
+  useStoreMessagesInStore(messages, params?.messageId);
+
+  console.log(data, params, data.length > 0 && params.messageId);
 
   useZoomReset();
   const handleSearchButtonClick = useCallback(
@@ -65,6 +76,21 @@ export default function Home() {
     abortControllerRef.current.abort();
     setLoading(false);
   }, []);
+
+  useEffect(() => {
+    if (data.length > 0 && params.messageId) {
+      const allMessage = data.find(
+        (item) => item.id === params.messageId
+      )?.messages;
+      console.log(allMessage);
+      if (allMessage && Array.isArray(allMessage) && allMessage.length > 0) {
+        console.log(allMessage);
+        setMessages(allMessage);
+      } else {
+        return redirect("/");
+      }
+    }
+  }, [data.length, params]);
 
   return (
     <main className="h-[100%] w-[100%] flex flex-col pr-1 mb:pr-0 justify-between">

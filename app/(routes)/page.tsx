@@ -6,13 +6,13 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import submitModelRequest from "@/lib/modelRequest";
 import Chat from "./_components/Chat";
 import useZoomReset from "@/lib/useZoomReset";
-import { uuid } from "uuidv4";
+import { v4 as uuidv4 } from "uuid";
 import useStoreMessagesInStore from "@/lib/useStoreMessagesInStore";
 import useGetAllMessages from "@/lib/useGetAllMessagesData";
 import useMessageStore from "@/lib/useStoreMessages";
 import ChatLabel from "./_components/chatLabel";
 
-const id = uuid();
+const id = uuidv4();
 export default function Home() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [currentQuestion, setCurrentQuestion] = useState<string>("");

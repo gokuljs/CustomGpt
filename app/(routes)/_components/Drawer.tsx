@@ -19,7 +19,7 @@ import { useParams, useRouter } from "next/navigation";
 const History = () => {
   const data: MessageProps[] = useGetAllMessages();
   const router = useRouter();
-  const params = useParams();
+
   const { reset, onReset } = useMessageStore();
   const [sideBarActive, setSideBarActive] = useState<boolean>(false);
   const allMessages =

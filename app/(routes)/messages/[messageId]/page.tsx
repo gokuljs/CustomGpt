@@ -39,8 +39,6 @@ export default function MessageIdPage({ params }: DocumentIdProps) {
 
   useStoreMessagesInStore(messages, params?.messageId);
 
-  console.log(data, params, data.length > 0 && params.messageId);
-
   useZoomReset();
   const handleSearchButtonClick = useCallback(
     (currentQuestion: string) => {
@@ -82,9 +80,8 @@ export default function MessageIdPage({ params }: DocumentIdProps) {
       const allMessage = data.find(
         (item) => item.id === params.messageId
       )?.messages;
-      console.log(allMessage);
+
       if (allMessage && Array.isArray(allMessage) && allMessage.length > 0) {
-        console.log(allMessage);
         setMessages(allMessage);
       } else {
         return redirect("/");

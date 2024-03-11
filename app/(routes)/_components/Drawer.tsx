@@ -19,7 +19,6 @@ import { useParams, useRouter } from "next/navigation";
 const History = () => {
   const data: MessageProps[] = useGetAllMessages();
   const router = useRouter();
-
   const { reset, onReset } = useMessageStore();
   const [sideBarActive, setSideBarActive] = useState<boolean>(false);
   const allMessages =
@@ -53,6 +52,15 @@ const History = () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [sideBarActive]);
+
+  const onDelete = (id: string) => {
+    const localStorageKey = process.env.LOCAL_STORAGE_KEY || "defaultKey";
+    if (data.length > 0) {
+      const newData = data.filter((item) => item.id !== id);
+      localStorage.setItem(localStorageKey, JSON.stringify(newData));
+      onReset(reset);
+    }
+  };
 
   return (
     <>
@@ -112,7 +120,14 @@ const History = () => {
                   <EllipsisVertical />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start">
-                  <DropdownMenuItem>Delete</DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={(e) => {
+                      onDelete(item.id);
+                      e.stopPropagation();
+                    }}
+                  >
+                    Delete
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>

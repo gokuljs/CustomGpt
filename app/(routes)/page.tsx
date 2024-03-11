@@ -3,19 +3,33 @@ import { Input } from "@/components/ui/input";
 import { CircleOff, SendHorizontal } from "lucide-react";
 import OpenAI from "openai";
 import { useCallback, useEffect, useRef, useState } from "react";
-import ChatLabel from "./_components/chatLabel";
 import submitModelRequest from "@/lib/modelRequest";
 import Chat from "./_components/Chat";
 import useZoomReset from "@/lib/useZoomReset";
+import { uuid } from "uuidv4";
+import useStoreMessagesInStore from "@/lib/useStoreMessagesInStore";
+import useGetAllMessages from "@/lib/useGetAllMessagesData";
+import useMessageStore from "@/lib/useStoreMessages";
+import ChatLabel from "./_components/chatLabel";
 
+const id = uuid();
 export default function Home() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [currentQuestion, setCurrentQuestion] = useState<string>("");
   const [isLoading, setLoading] = useState<boolean>(false);
   const abortControllerRef = useRef(new AbortController());
+  const { onUpdate } = useMessageStore();
   const [messages, setMessages] = useState<
     OpenAI.Chat.ChatCompletionMessageParam[]
   >([]);
+
+  useEffect(() => {
+    onUpdate(messages);
+  }, [messages]);
+
+  useStoreMessagesInStore(messages, id);
+  const data = useGetAllMessages();
+
   useZoomReset();
   const handleSearchButtonClick = useCallback(
     (currentQuestion: string) => {

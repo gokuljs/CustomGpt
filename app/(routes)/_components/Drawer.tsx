@@ -123,7 +123,7 @@ const History = () => {
               className="px-2 py-2 cursor-pointer rounded dark:hover:bg-zinc-800 hover:bg-zinc-800 hover:text-white flex items-center justify-between"
               key={item.id}
             >
-              <div className="max-w-xs overflow-hidden whitespace-nowrap text-overflow-ellipsis">
+              <div className="max-w-xs overflow-hidden whitespace-nowrap capitalize text-overflow-ellipsis">
                 {item.content ? (item.content as string) : ""}
               </div>
               <DropdownMenu>

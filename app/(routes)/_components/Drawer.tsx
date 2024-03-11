@@ -34,9 +34,9 @@ const History = () => {
     if (localStorage.getItem(localStorageKey) !== null) {
       // Delete the item
       localStorage.removeItem(localStorageKey);
-      toast("Item with ID ${localStorageKey} has been deleted.");
+      toast("History has been cleared");
     } else {
-      toast("Item with ID ${localStorageKey} does not exist.");
+      toast("History is Empty.");
     }
     onReset(reset);
   }

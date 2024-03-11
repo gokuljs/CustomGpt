@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { EllipsisVertical } from "lucide-react";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -41,10 +41,26 @@ const History = () => {
     onReset(reset);
   }
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && sideBarActive) {
+        setSideBarActive(false);
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [sideBarActive]);
+
   return (
     <>
-      <Button className="px-2 py-2" variant={"ghost"}>
-        <Menu onClick={() => setSideBarActive(true)} />
+      <Button
+        onClick={() => setSideBarActive(true)}
+        className="px-2 py-2"
+        variant={"ghost"}
+      >
+        <Menu />
       </Button>
       <div
         className={`fixed w-[300px] h-[100%] top-0 left-0 dark:bg-zinc-950 bg-gray-50 flex flex-col gap-1 transition-transform transform ease-in-out duration-500

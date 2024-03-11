@@ -39,11 +39,11 @@ export default function Home() {
         messages,
         setMessages,
         setLoading,
-        abortControllerRef.current
+        abortControllerRef.current,
       );
       setCurrentQuestion("");
     },
-    [messages]
+    [messages],
   );
 
   useEffect(() => {

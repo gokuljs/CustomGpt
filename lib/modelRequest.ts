@@ -6,7 +6,7 @@ function submitModelRequest(
   messages: OpenAI.Chat.ChatCompletionMessageParam[],
   setMessages: (messages: OpenAI.Chat.ChatCompletionMessageParam[]) => void,
   setLoading: (loading: boolean) => void, // Added this parameter to manage loading state
-  abortController: AbortController
+  abortController: AbortController,
 ) {
   const newMessage: OpenAI.Chat.ChatCompletionMessageParam = {
     role: "user",

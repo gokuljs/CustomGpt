@@ -47,11 +47,11 @@ export default function MessageIdPage({ params }: DocumentIdProps) {
         messages,
         setMessages,
         setLoading,
-        abortControllerRef.current
+        abortControllerRef.current,
       );
       setCurrentQuestion("");
     },
-    [messages]
+    [messages],
   );
 
   useEffect(() => {
@@ -77,7 +77,7 @@ export default function MessageIdPage({ params }: DocumentIdProps) {
   useEffect(() => {
     if (data.length > 0 && params.messageId) {
       const allMessage = data.find(
-        (item) => item.id === params.messageId
+        (item) => item.id === params.messageId,
       )?.messages;
 
       if (allMessage && Array.isArray(allMessage) && allMessage.length > 0) {

@@ -23,7 +23,7 @@ interface LocalStorageProps {
 
 const useStoreMessagesInStore = (
   messages: OpenAI.Chat.ChatCompletionMessageParam[],
-  id: string
+  id: string,
 ) => {
   useEffect(() => {
     const localStorageKey = process.env.LOCAL_STORAGE_KEY || "defaultKey";

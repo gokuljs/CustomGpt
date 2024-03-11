@@ -14,7 +14,7 @@ const Chat: React.FC<ChatModelProps> = ({ message, isLoading }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const MarkDownSyntaxHighlighter = useMemo(
     () => dynamic(() => import("./MarkDownSyntaxHighlighter"), { ssr: false }),
-    []
+    [],
   );
 
   useEffect(() => {

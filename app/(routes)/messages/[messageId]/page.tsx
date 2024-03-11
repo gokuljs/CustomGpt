@@ -5,7 +5,7 @@ import OpenAI from "openai";
 import { useCallback, useEffect, useRef, useState } from "react";
 import submitModelRequest from "@/lib/modelRequest";
 import useZoomReset from "@/lib/useZoomReset";
-import { uuid } from "uuidv4";
+
 import useStoreMessagesInStore from "@/lib/useStoreMessagesInStore";
 import useGetAllMessages from "@/lib/useGetAllMessagesData";
 import useMessageStore from "@/lib/useStoreMessages";
@@ -14,7 +14,6 @@ import Chat from "../../_components/Chat";
 import { useParams } from "next/navigation";
 import { redirect } from "next/navigation";
 
-const id = uuid();
 interface DocumentIdProps {
   params: {
     messageId: string;
@@ -25,7 +24,7 @@ export default function MessageIdPage({ params }: DocumentIdProps) {
   const [currentQuestion, setCurrentQuestion] = useState<string>("");
   const [isLoading, setLoading] = useState<boolean>(false);
   const abortControllerRef = useRef(new AbortController());
-  const { onUpdate } = useMessageStore();
+  const { onUpdate, reset } = useMessageStore();
 
   const data = useGetAllMessages();
 
@@ -35,7 +34,7 @@ export default function MessageIdPage({ params }: DocumentIdProps) {
 
   useEffect(() => {
     onUpdate(messages);
-  }, [messages]);
+  }, [messages.length]);
 
   useStoreMessagesInStore(messages, params?.messageId);
 
@@ -87,7 +86,7 @@ export default function MessageIdPage({ params }: DocumentIdProps) {
         return redirect("/");
       }
     }
-  }, [data.length, params]);
+  }, [data.length, params, reset]);
 
   return (
     <main className="h-[100%] w-[100%] flex flex-col pr-1 mb:pr-0 justify-between">

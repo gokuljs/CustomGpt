@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { EllipsisVertical } from "lucide-react";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -10,15 +10,15 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
 import useMessageStore from "@/lib/useStoreMessages";
+import { useParams, useRouter } from "next/navigation";
 
 const History = () => {
   const data: MessageProps[] = useGetAllMessages();
+  const router = useRouter();
   const { reset, onReset } = useMessageStore();
   const [sideBarActive, setSideBarActive] = useState<boolean>(false);
   const allMessages =
@@ -41,10 +41,35 @@ const History = () => {
     onReset(reset);
   }
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && sideBarActive) {
+        setSideBarActive(false);
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [sideBarActive]);
+
+  const onDelete = (id: string) => {
+    const localStorageKey = process.env.LOCAL_STORAGE_KEY || "defaultKey";
+    if (data.length > 0) {
+      const newData = data.filter((item) => item.id !== id);
+      localStorage.setItem(localStorageKey, JSON.stringify(newData));
+      onReset(reset);
+    }
+  };
+
   return (
     <>
-      <Button className="px-2 py-2" variant={"ghost"}>
-        <Menu onClick={() => setSideBarActive(true)} />
+      <Button
+        onClick={() => setSideBarActive(true)}
+        className="px-2 py-2"
+        variant={"ghost"}
+      >
+        <Menu />
       </Button>
       <div
         className={`fixed w-[300px] h-[100%] top-0 left-0 dark:bg-zinc-950 bg-gray-50 flex flex-col gap-1 transition-transform transform ease-in-out duration-500
@@ -80,6 +105,10 @@ const History = () => {
         <div className="h-[100%-60px] py-5 px-2 flex flex-col gap-3 overflow-y-auto">
           {allMessages.map((item) => (
             <div
+              onClick={() => {
+                router.push(`/messages/${item.id}/`);
+                setSideBarActive(false);
+              }}
               className="px-2 py-2 cursor-pointer rounded dark:hover:bg-zinc-800 hover:bg-zinc-800 hover:text-white flex items-center justify-between"
               key={item.id}
             >
@@ -91,7 +120,14 @@ const History = () => {
                   <EllipsisVertical />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start">
-                  <DropdownMenuItem>Delete</DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={(e) => {
+                      onDelete(item.id);
+                      e.stopPropagation();
+                    }}
+                  >
+                    Delete
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>

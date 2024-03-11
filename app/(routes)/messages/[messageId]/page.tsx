@@ -4,21 +4,31 @@ import { CircleOff, SendHorizontal } from "lucide-react";
 import OpenAI from "openai";
 import { useCallback, useEffect, useRef, useState } from "react";
 import submitModelRequest from "@/lib/modelRequest";
-import Chat from "./_components/Chat";
 import useZoomReset from "@/lib/useZoomReset";
-import { v4 as uuidv4 } from "uuid";
+import { uuid } from "uuidv4";
 import useStoreMessagesInStore from "@/lib/useStoreMessagesInStore";
 import useGetAllMessages from "@/lib/useGetAllMessagesData";
 import useMessageStore from "@/lib/useStoreMessages";
-import ChatLabel from "./_components/chatLabel";
+import ChatLabel from "../../_components/chatLabel";
+import Chat from "../../_components/Chat";
+import { useParams } from "next/navigation";
+import { redirect } from "next/navigation";
 
-const id = uuidv4();
-export default function Home() {
+const id = uuid();
+interface DocumentIdProps {
+  params: {
+    messageId: string;
+  };
+}
+export default function MessageIdPage({ params }: DocumentIdProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [currentQuestion, setCurrentQuestion] = useState<string>("");
   const [isLoading, setLoading] = useState<boolean>(false);
   const abortControllerRef = useRef(new AbortController());
   const { onUpdate } = useMessageStore();
+
+  const data = useGetAllMessages();
+
   const [messages, setMessages] = useState<
     OpenAI.Chat.ChatCompletionMessageParam[]
   >([]);
@@ -27,8 +37,7 @@ export default function Home() {
     onUpdate(messages);
   }, [messages]);
 
-  useStoreMessagesInStore(messages, id);
-  const data = useGetAllMessages();
+  useStoreMessagesInStore(messages, params?.messageId);
 
   useZoomReset();
   const handleSearchButtonClick = useCallback(
@@ -65,6 +74,20 @@ export default function Home() {
     abortControllerRef.current.abort();
     setLoading(false);
   }, []);
+
+  useEffect(() => {
+    if (data.length > 0 && params.messageId) {
+      const allMessage = data.find(
+        (item) => item.id === params.messageId
+      )?.messages;
+
+      if (allMessage && Array.isArray(allMessage) && allMessage.length > 0) {
+        setMessages(allMessage);
+      } else {
+        return redirect("/");
+      }
+    }
+  }, [data.length, params]);
 
   return (
     <main className="h-[100%] w-[100%] flex flex-col pr-1 mb:pr-0 justify-between">

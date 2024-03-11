@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { EllipsisVertical } from "lucide-react";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -15,12 +15,17 @@ import {
 import { toast } from "sonner";
 import useMessageStore from "@/lib/useStoreMessages";
 import { useParams, useRouter } from "next/navigation";
+import useOutsideClick from "@/lib/useOutsideClick";
 
 const History = () => {
   const data: MessageProps[] = useGetAllMessages();
   const router = useRouter();
   const { reset, onReset } = useMessageStore();
   const [sideBarActive, setSideBarActive] = useState<boolean>(false);
+  const drawerRef = useRef<HTMLDivElement>(null);
+  useOutsideClick(drawerRef, () => {
+    setSideBarActive(false);
+  });
   const allMessages =
     data.length > 0
       ? data
@@ -72,6 +77,7 @@ const History = () => {
         <Menu />
       </Button>
       <div
+        ref={drawerRef}
         className={`fixed w-[300px] h-[100%] top-0 left-0 dark:bg-zinc-950 bg-gray-50 flex flex-col gap-1 transition-transform transform ease-in-out duration-500
         ${sideBarActive ? "translate-x-[0%]" : "translate-x-[-100%]"}
         `}

@@ -5,7 +5,7 @@ import OpenAI from "openai";
 import { useCallback, useEffect, useRef, useState } from "react";
 import submitModelRequest from "@/lib/modelRequest";
 import useZoomReset from "@/lib/useZoomReset";
-import { uuid } from "uuidv4";
+
 import useStoreMessagesInStore from "@/lib/useStoreMessagesInStore";
 import useGetAllMessages from "@/lib/useGetAllMessagesData";
 import useMessageStore from "@/lib/useStoreMessages";
@@ -14,7 +14,6 @@ import Chat from "../../_components/Chat";
 import { useParams } from "next/navigation";
 import { redirect } from "next/navigation";
 
-const id = uuid();
 interface DocumentIdProps {
   params: {
     messageId: string;

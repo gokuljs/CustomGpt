@@ -22,7 +22,7 @@ const useGetAllMessages = (): MessageProps[] => {
   const localStorageKey = process.env.LOCAL_STORAGE_KEY || "defaultKey";
   const [mounted, setIsMounted] = useState(false);
   const [allMessages, setAllMessages] = useState([]);
-  const { messages: storeMessages } = useMessageStore();
+  const { messages: storeMessages, reset } = useMessageStore();
 
   useEffect(() => {
     setIsMounted(true);
@@ -33,7 +33,7 @@ const useGetAllMessages = (): MessageProps[] => {
       const messages = getDataFromLocalStorage(localStorageKey);
       setAllMessages(messages);
     }
-  }, [mounted, localStorageKey, storeMessages]);
+  }, [mounted, localStorageKey, storeMessages, reset]);
 
   return allMessages;
 };

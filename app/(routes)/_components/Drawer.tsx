@@ -15,10 +15,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
+import useMessageStore from "@/lib/useStoreMessages";
 
 const History = () => {
   const data: MessageProps[] = useGetAllMessages();
-
+  const { reset, onReset } = useMessageStore();
   const [sideBarActive, setSideBarActive] = useState<boolean>(false);
   const allMessages =
     data.length > 0
@@ -37,6 +38,7 @@ const History = () => {
     } else {
       toast("Item with ID ${localStorageKey} does not exist.");
     }
+    onReset(reset);
   }
 
   return (

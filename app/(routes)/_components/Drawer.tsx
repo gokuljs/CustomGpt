@@ -98,8 +98,8 @@ const History = () => {
           {allMessages.map((item) => (
             <div
               onClick={() => {
-                console.log("sddsd");
                 router.push(`/messages/${item.id}/`);
+                setSideBarActive(false);
               }}
               className="px-2 py-2 cursor-pointer rounded dark:hover:bg-zinc-800 hover:bg-zinc-800 hover:text-white flex items-center justify-between"
               key={item.id}

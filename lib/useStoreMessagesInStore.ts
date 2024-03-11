@@ -30,11 +30,10 @@ const useStoreMessagesInStore = (
     const fullKey = `${localStorageKey}`;
     let existingData: LocalStorageProps[] =
       getDataFromLocalStorage(fullKey) || [];
-
     if (existingData.length > 50) {
-      existingData.splice(0, existingData.length / 2);
+      existingData.splice(0, existingData.length);
     }
-    if (messages.length > 0) {
+    if (messages.length > 1) {
       existingData = existingData.map((item) => {
         if (item.id === id) {
           return { id, messages: messages };
@@ -43,9 +42,8 @@ const useStoreMessagesInStore = (
         }
       });
       saveDataToLocalStorage(fullKey, existingData);
-    } else {
+    } else if (messages.length === 1) {
       const newData = { id: id, messages: messages };
-      console.log(newData);
       existingData = [newData, ...existingData];
       saveDataToLocalStorage(fullKey, existingData);
     }

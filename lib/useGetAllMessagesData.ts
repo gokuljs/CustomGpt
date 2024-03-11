@@ -1,5 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
+import useMessageStore from "./useStoreMessages";
+import OpenAI from "openai";
 
 // Utility function to get data from localStorage
 const getDataFromLocalStorage = (key: string) => {
@@ -10,26 +12,29 @@ const getDataFromLocalStorage = (key: string) => {
   return {};
 };
 
+export interface MessageProps {
+  id: string;
+  messages: OpenAI.Chat.ChatCompletionMessageParam[];
+}
+
 // Hook to get all messages
-const useGetAllMessages = () => {
+const useGetAllMessages = (): MessageProps[] => {
   const localStorageKey = process.env.LOCAL_STORAGE_KEY || "defaultKey";
   const [mounted, setIsMounted] = useState(false);
-  const [allMessages, setAllMessages] = useState({});
+  const [allMessages, setAllMessages] = useState([]);
+  const { messages: storeMessages } = useMessageStore();
 
   useEffect(() => {
-    setIsMounted(true); // Set mounted to true after component mounts
+    setIsMounted(true);
   }, []);
 
   useEffect(() => {
     if (mounted) {
-      // Only interact with localStorage if component is mounted (i.e., on the client-side)
       const messages = getDataFromLocalStorage(localStorageKey);
       setAllMessages(messages);
     }
-  }, [mounted, localStorageKey]); // React to changes in `mounted` and `localStorageKey`
+  }, [mounted, localStorageKey, storeMessages]);
 
-  // Return allMessages regardless of whether the component has mounted
-  // This ensures that the return type of the hook is consistent
   return allMessages;
 };
 

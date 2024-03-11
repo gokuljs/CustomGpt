@@ -10,6 +10,7 @@ import useZoomReset from "@/lib/useZoomReset";
 import { uuid } from "uuidv4";
 import useStoreMessagesInStore from "@/lib/useStoreMessagesInStore";
 import useGetAllMessages from "@/lib/useGetAllMessagesData";
+import useMessageStore from "@/lib/useStoreMessages";
 
 const id = uuid();
 export default function Home() {
@@ -17,13 +18,17 @@ export default function Home() {
   const [currentQuestion, setCurrentQuestion] = useState<string>("");
   const [isLoading, setLoading] = useState<boolean>(false);
   const abortControllerRef = useRef(new AbortController());
+  const { onUpdate } = useMessageStore();
   const [messages, setMessages] = useState<
     OpenAI.Chat.ChatCompletionMessageParam[]
   >([]);
 
+  useEffect(() => {
+    onUpdate(messages);
+  }, [messages]);
+
   useStoreMessagesInStore(messages, id);
   const data = useGetAllMessages();
-  console.log(data);
 
   useZoomReset();
   const handleSearchButtonClick = useCallback(

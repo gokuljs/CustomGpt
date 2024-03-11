@@ -19,6 +19,7 @@ import useOutsideClick from "@/lib/useOutsideClick";
 
 const History = () => {
   const data: MessageProps[] = useGetAllMessages();
+  const params = useParams();
   const router = useRouter();
   const { reset, onReset } = useMessageStore();
   const [sideBarActive, setSideBarActive] = useState<boolean>(false);
@@ -64,6 +65,10 @@ const History = () => {
       const newData = data.filter((item) => item.id !== id);
       localStorage.setItem(localStorageKey, JSON.stringify(newData));
       onReset(reset);
+      console.log(params.messageId === id);
+      if (params.messageId === id) {
+        router.push("/");
+      }
     }
   };
 

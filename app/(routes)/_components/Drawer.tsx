@@ -5,6 +5,7 @@ import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import useGetAllMessages, { MessageProps } from "@/lib/useGetAllMessagesData";
+import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 
 const History = () => {
   const data: MessageProps[] = useGetAllMessages();
@@ -24,7 +25,14 @@ const History = () => {
         ${sideBarActive ? "translate-x-[0%]" : "translate-x-[-100%]"}
         `}
       >
-        <div className="h-[60px] flex justify-end items-center px-2">
+        <div className="h-[60px] flex justify-between items-center px-2">
+          <Avatar className="h-8 w-8 rounded-full">
+            <AvatarImage
+              className="object-cover object-center rounded-full"
+              src="/profileThree.jpeg"
+            />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
           <Button
             className="rounded-full h-7 w-7 px-1 py-1 hover:bg-zinc-800 hover:text-white"
             variant={"ghost"}
